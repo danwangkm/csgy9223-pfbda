@@ -1,0 +1,147 @@
+[cloudera@quickstart homework1]$ ls
+MaxTemperature.java        MaxTemperatureReducer.java
+MaxTemperatureMapper.java  temperatureInputs.txt
+[cloudera@quickstart homework1]$ javac -classpath `yarn classpath` -d . MaxTemperatureMapper.java 
+[cloudera@quickstart homework1]$ javac -classpath `yarn classpath` -d . MaxTemperatureReducer.java 
+[cloudera@quickstart homework1]$ javac -classpath `yarn classpath`:. -d . MaxTemperature.java 
+Note: MaxTemperature.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+[cloudera@quickstart homework1]$ jar -cvf maxTemp.jar *.class
+added manifest
+adding: MaxTemperature.class(in = 1418) (out= 800)(deflated 43%)
+adding: MaxTemperatureMapper.class(in = 1872) (out= 798)(deflated 57%)
+adding: MaxTemperatureReducer.class(in = 1664) (out= 708)(deflated 57%)
+[cloudera@quickstart homework1]$ ls
+MaxTemperature.class        MaxTemperatureMapper.java    maxTemp.jar
+MaxTemperature.java         MaxTemperatureReducer.class  temperatureInputs.txt
+MaxTemperatureMapper.class  MaxTemperatureReducer.java
+[cloudera@quickstart homework1]$ hdfs dfs -ls /
+Found 6 items
+drwxrwxrwx   - hdfs  supergroup          0 2016-08-10 13:07 /benchmarks
+drwxr-xr-x   - hbase supergroup          0 2016-09-13 13:20 /hbase
+drwxr-xr-x   - solr  solr                0 2016-08-10 13:09 /solr
+drwxrwxrwt   - hdfs  supergroup          0 2016-09-13 11:09 /tmp
+drwxr-xr-x   - hdfs  supergroup          0 2016-08-10 13:09 /user
+drwxr-xr-x   - hdfs  supergroup          0 2016-08-10 13:09 /var
+[cloudera@quickstart homework1]$ hdfs dfs -ls /user/cloudera/class1
+[cloudera@quickstart homework1]$ hdfs dfs -put temperatureInputs.txt /user/cloudera/class1
+[cloudera@quickstart homework1]$ hdfs dfs -ls /user/cloudera/class1Found 1 items
+-rw-r--r--   1 cloudera cloudera        544 2016-09-13 19:24 /user/cloudera/class1/temperatureInputs.txt
+[cloudera@quickstart homework1]$ hdfs dfs -cat /user/cloudera/class1/temperatureInputs.txt
+0067011990999991950051507004..................................................9999999N9+00001+99999999999...
+0043011990999991950051512004..................................................9999999N9+00221+99999999999...
+0043011990999991950051518004..................................................9999999N9-00111+99999999999...
+0043012650999991949032412004..................................................0500001N9+01111+99999999999...
+0043012650999991949032418004..................................................0500001N9+00781+99999999999...[cloudera@quickstart homework1]$ hadoop
+Usage: hadoop [--config confdir] COMMAND
+       where COMMAND is one of:
+  fs                   run a generic filesystem user client
+  version              print the version
+  jar <jar>            run a jar file
+  checknative [-a|-h]  check native hadoop and compression libraries availability
+  distcp <srcurl> <desturl> copy file or directories recursively
+  archive -archiveName NAME -p <parent path> <src>* <dest> create a hadoop archive
+  classpath            prints the class path needed to get the
+  credential           interact with credential providers
+                       Hadoop jar and the required libraries
+  daemonlog            get/set the log level for each daemon
+  trace                view and modify Hadoop tracing settings
+ or
+  CLASSNAME            run the class named CLASSNAME
+
+Most commands print help when invoked w/o parameters.
+[cloudera@quickstart homework1]$ hadoop jar maxTemp.jar MaxTemperature /user/cloudera/class1/temperatureInputs.txt /user/cloudera/class1/output
+16/09/13 19:27:46 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+16/09/13 19:27:46 WARN mapreduce.JobResourceUploader: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+16/09/13 19:27:46 INFO input.FileInputFormat: Total input paths to process : 1
+16/09/13 19:27:47 WARN hdfs.DFSClient: Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+16/09/13 19:27:47 WARN hdfs.DFSClient: Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+16/09/13 19:27:47 INFO mapreduce.JobSubmitter: number of splits:1
+16/09/13 19:27:47 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1473797940444_0001
+16/09/13 19:27:48 INFO impl.YarnClientImpl: Submitted application application_1473797940444_0001
+16/09/13 19:27:48 INFO mapreduce.Job: The url to track the job: http://quickstart.cloudera:8088/proxy/application_1473797940444_0001/
+16/09/13 19:27:48 INFO mapreduce.Job: Running job: job_1473797940444_0001
+16/09/13 19:27:58 INFO mapreduce.Job: Job job_1473797940444_0001 running in uber mode : false
+16/09/13 19:27:58 INFO mapreduce.Job:  map 0% reduce 0%
+16/09/13 19:28:04 INFO mapreduce.Job:  map 100% reduce 0%
+16/09/13 19:28:12 INFO mapreduce.Job:  map 100% reduce 100%
+16/09/13 19:28:12 INFO mapreduce.Job: Job job_1473797940444_0001 completed successfully
+16/09/13 19:28:12 INFO mapreduce.Job: Counters: 49
+	File System Counters
+		FILE: Number of bytes read=61
+		FILE: Number of bytes written=232707
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=683
+		HDFS: Number of bytes written=17
+		HDFS: Number of read operations=6
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=1
+		Launched reduce tasks=1
+		Data-local map tasks=1
+		Total time spent by all maps in occupied slots (ms)=4396
+		Total time spent by all reduces in occupied slots (ms)=5313
+		Total time spent by all map tasks (ms)=4396
+		Total time spent by all reduce tasks (ms)=5313
+		Total vcore-seconds taken by all map tasks=4396
+		Total vcore-seconds taken by all reduce tasks=5313
+		Total megabyte-seconds taken by all map tasks=4501504
+		Total megabyte-seconds taken by all reduce tasks=5440512
+	Map-Reduce Framework
+		Map input records=5
+		Map output records=5
+		Map output bytes=45
+		Map output materialized bytes=61
+		Input split bytes=139
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=2
+		Reduce shuffle bytes=61
+		Reduce input records=5
+		Reduce output records=2
+		Spilled Records=10
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=134
+		CPU time spent (ms)=1170
+		Physical memory (bytes) snapshot=348520448
+		Virtual memory (bytes) snapshot=3006812160
+		Total committed heap usage (bytes)=226365440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=544
+	File Output Format Counters 
+		Bytes Written=17
+[cloudera@quickstart homework1]$ hdfs dfs -ls /user/cloudera/class1/output
+Found 2 items
+-rw-r--r--   1 cloudera cloudera          0 2016-09-13 19:28 /user/cloudera/class1/output/_SUCCESS
+-rw-r--r--   1 cloudera cloudera         17 2016-09-13 19:28 /user/cloudera/class1/output/part-r-00000
+[cloudera@quickstart homework1]$ hdfs dfs -cat /user/cloudera/class1/output/part-r-00000
+1949	111
+1950	22
+[cloudera@quickstart homework1]$ 
+
