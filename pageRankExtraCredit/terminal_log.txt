@@ -1,0 +1,316 @@
+[cloudera@quickstart ~]$ cd homework3/extra\ credit/
+[cloudera@quickstart extra credit]$ ls
+input.txt  PageRank.java  PageRankMapper.java  PageRankReducer.java
+[cloudera@quickstart extra credit]$ javac -classpath `yarn classpath` -d . PageRankMapper.java 
+[cloudera@quickstart extra credit]$ javac -classpath `yarn classpath` -d . PageRankReducer.java 
+[cloudera@quickstart extra credit]$ javac -classpath `yarn classpath`:. -d . PageRank.java 
+Note: PageRank.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+[cloudera@quickstart extra credit]$ jar -cvf pageRank.jar *.class
+added manifest
+adding: PageRank.class(in = 1725) (out= 961)(deflated 44%)
+adding: PageRankMapper.class(in = 1989) (out= 844)(deflated 57%)
+adding: PageRankReducer.class(in = 2080) (out= 910)(deflated 56%)
+[cloudera@quickstart extra credit]$ ls
+input.txt       pageRank.jar   PageRankMapper.class  PageRankReducer.class
+PageRank.class  PageRank.java  PageRankMapper.java   PageRankReducer.java
+[cloudera@quickstart extra credit]$ hdfs dfs -mkdir /user/cloudera/class3_extra
+[cloudera@quickstart extra credit]$ hdfs dfs -ls /user/cloudera/
+Found 5 items
+drwxr-xr-x   - cloudera cloudera          0 2016-09-13 13:59 /user/cloudera/assignment1
+drwxr-xr-x   - cloudera cloudera          0 2016-09-13 19:27 /user/cloudera/class1
+drwxr-xr-x   - cloudera cloudera          0 2016-09-21 19:39 /user/cloudera/class2
+drwxr-xr-x   - cloudera cloudera          0 2016-09-27 00:12 /user/cloudera/class3
+drwxr-xr-x   - cloudera cloudera          0 2016-09-27 00:47 /user/cloudera/class3_extra
+[cloudera@quickstart extra credit]$ hdfs dfs -cat /user/cloudera/class3/input.txt
+A C F 0.166667
+B D E F 0.166667
+C A B 0.166667
+D A B C E F 0.166667
+E F 0.166667
+F B C 0.166667[cloudera@quickstart extra credit]$ 
+[cloudera@quickstart extra credit]$ hadoop jar pageRank.jar PageRank /user/cloudera/class3/input.txt /user/cloudera/class3_extra/output
+16/09/27 00:49:01 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+16/09/27 00:49:01 WARN mapreduce.JobResourceUploader: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+16/09/27 00:49:02 INFO input.FileInputFormat: Total input paths to process : 1
+16/09/27 00:49:02 WARN hdfs.DFSClient: Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+16/09/27 00:49:02 INFO mapreduce.JobSubmitter: number of splits:1
+16/09/27 00:49:02 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1474955193242_0005
+16/09/27 00:49:03 INFO impl.YarnClientImpl: Submitted application application_1474955193242_0005
+16/09/27 00:49:03 INFO mapreduce.Job: The url to track the job: http://quickstart.cloudera:8088/proxy/application_1474955193242_0005/
+16/09/27 00:49:03 INFO mapreduce.Job: Running job: job_1474955193242_0005
+16/09/27 00:49:13 INFO mapreduce.Job: Job job_1474955193242_0005 running in uber mode : false
+16/09/27 00:49:13 INFO mapreduce.Job:  map 0% reduce 0%
+16/09/27 00:49:20 INFO mapreduce.Job:  map 100% reduce 0%
+16/09/27 00:49:28 INFO mapreduce.Job:  map 100% reduce 100%
+16/09/27 00:49:28 INFO mapreduce.Job: Job job_1474955193242_0005 completed successfully
+16/09/27 00:49:29 INFO mapreduce.Job: Counters: 49
+	File System Counters
+		FILE: Number of bytes read=329
+		FILE: Number of bytes written=233181
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=222
+		HDFS: Number of bytes written=151
+		HDFS: Number of read operations=6
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=1
+		Launched reduce tasks=1
+		Data-local map tasks=1
+		Total time spent by all maps in occupied slots (ms)=5209
+		Total time spent by all reduces in occupied slots (ms)=5938
+		Total time spent by all map tasks (ms)=5209
+		Total time spent by all reduce tasks (ms)=5938
+		Total vcore-seconds taken by all map tasks=5209
+		Total vcore-seconds taken by all reduce tasks=5938
+		Total megabyte-seconds taken by all map tasks=5334016
+		Total megabyte-seconds taken by all reduce tasks=6080512
+	Map-Reduce Framework
+		Map input records=6
+		Map output records=21
+		Map output bytes=281
+		Map output materialized bytes=329
+		Input split bytes=127
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=6
+		Reduce shuffle bytes=329
+		Reduce input records=21
+		Reduce output records=6
+		Spilled Records=42
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=133
+		CPU time spent (ms)=1350
+		Physical memory (bytes) snapshot=346525696
+		Virtual memory (bytes) snapshot=3007459328
+		Total committed heap usage (bytes)=226365440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=95
+	File Output Format Counters 
+		Bytes Written=151
+16/09/27 00:49:29 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+16/09/27 00:49:29 WARN mapreduce.JobResourceUploader: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+16/09/27 00:49:29 WARN hdfs.DFSClient: Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+16/09/27 00:49:29 INFO input.FileInputFormat: Total input paths to process : 1
+16/09/27 00:49:29 WARN hdfs.DFSClient: Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+16/09/27 00:49:29 WARN hdfs.DFSClient: Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+16/09/27 00:49:29 INFO mapreduce.JobSubmitter: number of splits:1
+16/09/27 00:49:29 WARN hdfs.DFSClient: Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+16/09/27 00:49:29 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1474955193242_0006
+16/09/27 00:49:29 INFO impl.YarnClientImpl: Submitted application application_1474955193242_0006
+16/09/27 00:49:29 INFO mapreduce.Job: The url to track the job: http://quickstart.cloudera:8088/proxy/application_1474955193242_0006/
+16/09/27 00:49:29 INFO mapreduce.Job: Running job: job_1474955193242_0006
+16/09/27 00:49:38 INFO mapreduce.Job: Job job_1474955193242_0006 running in uber mode : false
+16/09/27 00:49:38 INFO mapreduce.Job:  map 0% reduce 0%
+16/09/27 00:49:45 INFO mapreduce.Job:  map 100% reduce 0%
+16/09/27 00:49:53 INFO mapreduce.Job:  map 100% reduce 100%
+16/09/27 00:49:53 INFO mapreduce.Job: Job job_1474955193242_0006 completed successfully
+16/09/27 00:49:54 INFO mapreduce.Job: Counters: 49
+	File System Counters
+		FILE: Number of bytes read=437
+		FILE: Number of bytes written=233405
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=295
+		HDFS: Number of bytes written=161
+		HDFS: Number of read operations=6
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=1
+		Launched reduce tasks=1
+		Data-local map tasks=1
+		Total time spent by all maps in occupied slots (ms)=5191
+		Total time spent by all reduces in occupied slots (ms)=5683
+		Total time spent by all map tasks (ms)=5191
+		Total time spent by all reduce tasks (ms)=5683
+		Total vcore-seconds taken by all map tasks=5191
+		Total vcore-seconds taken by all reduce tasks=5683
+		Total megabyte-seconds taken by all map tasks=5315584
+		Total megabyte-seconds taken by all reduce tasks=5819392
+	Map-Reduce Framework
+		Map input records=6
+		Map output records=21
+		Map output bytes=389
+		Map output materialized bytes=437
+		Input split bytes=144
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=6
+		Reduce shuffle bytes=437
+		Reduce input records=21
+		Reduce output records=6
+		Spilled Records=42
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=140
+		CPU time spent (ms)=1340
+		Physical memory (bytes) snapshot=344621056
+		Virtual memory (bytes) snapshot=3007262720
+		Total committed heap usage (bytes)=226365440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=151
+	File Output Format Counters 
+		Bytes Written=161
+16/09/27 00:49:54 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+16/09/27 00:49:54 WARN mapreduce.JobResourceUploader: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+16/09/27 00:49:54 WARN hdfs.DFSClient: Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+16/09/27 00:49:54 INFO input.FileInputFormat: Total input paths to process : 1
+16/09/27 00:49:54 WARN hdfs.DFSClient: Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeInternal(DFSOutputStream.java:830)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:826)
+16/09/27 00:49:54 INFO mapreduce.JobSubmitter: number of splits:1
+16/09/27 00:49:54 WARN hdfs.DFSClient: Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+16/09/27 00:49:54 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1474955193242_0007
+16/09/27 00:49:54 INFO impl.YarnClientImpl: Submitted application application_1474955193242_0007
+16/09/27 00:49:54 INFO mapreduce.Job: The url to track the job: http://quickstart.cloudera:8088/proxy/application_1474955193242_0007/
+16/09/27 00:49:54 INFO mapreduce.Job: Running job: job_1474955193242_0007
+16/09/27 00:50:04 INFO mapreduce.Job: Job job_1474955193242_0007 running in uber mode : false
+16/09/27 00:50:04 INFO mapreduce.Job:  map 0% reduce 0%
+16/09/27 00:50:13 INFO mapreduce.Job:  map 100% reduce 0%
+16/09/27 00:50:22 INFO mapreduce.Job:  map 100% reduce 100%
+16/09/27 00:50:22 INFO mapreduce.Job: Job job_1474955193242_0007 completed successfully
+16/09/27 00:50:22 INFO mapreduce.Job: Counters: 49
+	File System Counters
+		FILE: Number of bytes read=455
+		FILE: Number of bytes written=233439
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=305
+		HDFS: Number of bytes written=160
+		HDFS: Number of read operations=6
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=1
+		Launched reduce tasks=1
+		Data-local map tasks=1
+		Total time spent by all maps in occupied slots (ms)=5746
+		Total time spent by all reduces in occupied slots (ms)=6229
+		Total time spent by all map tasks (ms)=5746
+		Total time spent by all reduce tasks (ms)=6229
+		Total vcore-seconds taken by all map tasks=5746
+		Total vcore-seconds taken by all reduce tasks=6229
+		Total megabyte-seconds taken by all map tasks=5883904
+		Total megabyte-seconds taken by all reduce tasks=6378496
+	Map-Reduce Framework
+		Map input records=6
+		Map output records=21
+		Map output bytes=407
+		Map output materialized bytes=455
+		Input split bytes=144
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=6
+		Reduce shuffle bytes=455
+		Reduce input records=21
+		Reduce output records=6
+		Spilled Records=42
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=124
+		CPU time spent (ms)=1350
+		Physical memory (bytes) snapshot=346697728
+		Virtual memory (bytes) snapshot=3009232896
+		Total committed heap usage (bytes)=226365440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=161
+	File Output Format Counters 
+		Bytes Written=160
+[cloudera@quickstart extra credit]$ hdfs dfs -ls /user/cloudera/class3_extra/output
+Found 2 items
+-rw-r--r--   1 cloudera cloudera          0 2016-09-27 00:50 /user/cloudera/class3_extra/output/_SUCCESS
+-rw-r--r--   1 cloudera cloudera        160 2016-09-27 00:50 /user/cloudera/class3_extra/output/part-r-00000
+[cloudera@quickstart extra credit]$ hdfs dfs -cat /user/cloudera/class3_extra/output/part-r-00000
+A	C F 0.13277804333333335
+B	D E F 0.24527826833333338
+C	A B 0.1813892516666667
+D	A B C E F 0.09351870555555557
+E	F 0.10685206555555557
+F	B C 0.2401856655555556
+[cloudera@quickstart extra credit]$ 
+
