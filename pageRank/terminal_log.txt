@@ -1,0 +1,134 @@
+[cloudera@quickstart ~]$ cd homework3
+[cloudera@quickstart homework3]$ ls
+input.txt  PageRank.java  PageRankMapper.java  PageRankReducer.java
+[cloudera@quickstart homework3]$ javac -classpath `yarn classpath` -d . PageRankMapper.java 
+[cloudera@quickstart homework3]$ javac -classpath `yarn classpath` -d . PageRankReducer.java 
+[cloudera@quickstart homework3]$ javac -classpath `yarn classpath`:. -d . PageRank.java 
+Note: PageRank.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+[cloudera@quickstart homework3]$ jar -cvf pageRank.jar *.class
+added manifest
+adding: PageRank.class(in = 1332) (out= 768)(deflated 42%)
+adding: PageRankMapper.class(in = 1989) (out= 844)(deflated 57%)
+adding: PageRankReducer.class(in = 2080) (out= 910)(deflated 56%)
+[cloudera@quickstart homework3]$ ls
+input.txt       pageRank.jar   PageRankMapper.class  PageRankReducer.class
+PageRank.class  PageRank.java  PageRankMapper.java   PageRankReducer.java
+[cloudera@quickstart homework3]$ hdfs dfs -ls /user/cloudera
+Found 3 items
+drwxr-xr-x   - cloudera cloudera          0 2016-09-13 13:59 /user/cloudera/assignment1
+drwxr-xr-x   - cloudera cloudera          0 2016-09-13 19:27 /user/cloudera/class1
+drwxr-xr-x   - cloudera cloudera          0 2016-09-21 19:39 /user/cloudera/class2
+[cloudera@quickstart homework3]$ hdfs dfs -mkdir /user/cloudera/class3
+[cloudera@quickstart homework3]$ hdfs dfs -ls /user/cloudera
+Found 4 items
+drwxr-xr-x   - cloudera cloudera          0 2016-09-13 13:59 /user/cloudera/assignment1
+drwxr-xr-x   - cloudera cloudera          0 2016-09-13 19:27 /user/cloudera/class1
+drwxr-xr-x   - cloudera cloudera          0 2016-09-21 19:39 /user/cloudera/class2
+drwxr-xr-x   - cloudera cloudera          0 2016-09-27 00:11 /user/cloudera/class3
+[cloudera@quickstart homework3]$ hdfs dfs -put input.txt /user/cloudera/class3
+[cloudera@quickstart homework3]$ hdfs dfs -cat /user/cloudera/class3/input.txt
+A C F 0.166667
+B D E F 0.166667
+C A B 0.166667
+D A B C E F 0.166667
+E F 0.166667
+F B C 0.166667[cloudera@quickstart homework3]$ 
+[cloudera@quickstart homework3]$ hadoop jar pageRank.jar PageRank /user/cloudera/class3/input.txt /user/cloudera/class3/output
+16/09/27 00:11:52 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032
+16/09/27 00:11:53 WARN mapreduce.JobResourceUploader: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+16/09/27 00:11:53 INFO input.FileInputFormat: Total input paths to process : 1
+16/09/27 00:11:53 WARN hdfs.DFSClient: Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+16/09/27 00:11:54 WARN hdfs.DFSClient: Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+16/09/27 00:11:54 INFO mapreduce.JobSubmitter: number of splits:1
+16/09/27 00:11:54 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1474955193242_0004
+16/09/27 00:11:54 INFO impl.YarnClientImpl: Submitted application application_1474955193242_0004
+16/09/27 00:11:54 INFO mapreduce.Job: The url to track the job: http://quickstart.cloudera:8088/proxy/application_1474955193242_0004/
+16/09/27 00:11:54 INFO mapreduce.Job: Running job: job_1474955193242_0004
+16/09/27 00:12:04 INFO mapreduce.Job: Job job_1474955193242_0004 running in uber mode : false
+16/09/27 00:12:04 INFO mapreduce.Job:  map 0% reduce 0%
+16/09/27 00:12:12 INFO mapreduce.Job:  map 100% reduce 0%
+16/09/27 00:12:20 INFO mapreduce.Job:  map 100% reduce 100%
+16/09/27 00:12:21 INFO mapreduce.Job: Job job_1474955193242_0004 completed successfully
+16/09/27 00:12:22 INFO mapreduce.Job: Counters: 49
+	File System Counters
+		FILE: Number of bytes read=329
+		FILE: Number of bytes written=233167
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=222
+		HDFS: Number of bytes written=151
+		HDFS: Number of read operations=6
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+	Job Counters 
+		Launched map tasks=1
+		Launched reduce tasks=1
+		Data-local map tasks=1
+		Total time spent by all maps in occupied slots (ms)=6444
+		Total time spent by all reduces in occupied slots (ms)=5672
+		Total time spent by all map tasks (ms)=6444
+		Total time spent by all reduce tasks (ms)=5672
+		Total vcore-seconds taken by all map tasks=6444
+		Total vcore-seconds taken by all reduce tasks=5672
+		Total megabyte-seconds taken by all map tasks=6598656
+		Total megabyte-seconds taken by all reduce tasks=5808128
+	Map-Reduce Framework
+		Map input records=6
+		Map output records=21
+		Map output bytes=281
+		Map output materialized bytes=329
+		Input split bytes=127
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=6
+		Reduce shuffle bytes=329
+		Reduce input records=21
+		Reduce output records=6
+		Spilled Records=42
+		Shuffled Maps =1
+		Failed Shuffles=0
+		Merged Map outputs=1
+		GC time elapsed (ms)=145
+		CPU time spent (ms)=1410
+		Physical memory (bytes) snapshot=344219648
+		Virtual memory (bytes) snapshot=3007418368
+		Total committed heap usage (bytes)=226365440
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=95
+	File Output Format Counters 
+		Bytes Written=151
+[cloudera@quickstart homework3]$ hdfs dfs -ls /user/cloudera/class3/output
+Found 2 items
+-rw-r--r--   1 cloudera cloudera          0 2016-09-27 00:12 /user/cloudera/class3/output/_SUCCESS
+-rw-r--r--   1 cloudera cloudera        151 2016-09-27 00:12 /user/cloudera/class3/output/part-r-00000
+[cloudera@quickstart homework3]$ hdfs dfs -cat /user/cloudera/class3/output/part-r-00000
+A	C F 0.1166669
+B	D E F 0.20000040000000002
+C	A B 0.20000040000000002
+D	A B C E F 0.05555566666666667
+E	F 0.08888906666666667
+F	B C 0.3388895666666667
+
