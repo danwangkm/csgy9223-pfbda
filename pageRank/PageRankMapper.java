@@ -9,7 +9,7 @@ public class PageRankMapper extends Mapper<LongWritable, Text, Text, Text> {
     public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
         String line = value.toString();
 
-        String[] strArr = line.split(" ");
+        String[] strArr = line.split("\\s+");
         String currentPage = strArr[0];
         double pr = Double.parseDouble(strArr[strArr.length-1]);
         int outlinkCount = strArr.length - 2;

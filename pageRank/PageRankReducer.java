@@ -1,5 +1,4 @@
 import java.io.IOException;
-import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
@@ -11,8 +10,8 @@ public class PageRankReducer extends Reducer<Text, Text, Text, Text> {
         String outlinks = "";
         for (Text value : values) {
             String line = value.toString();
-            String[] strArr = line.split(" ");
-            if (StringUtils.isNumeric(strArr[strArr.length-1])) {
+            String[] strArr = line.split("\\s+");
+            if (strArr[strArr.length-1].indexOf(".") != -1) {
                 pr += Double.parseDouble(strArr[strArr.length-1]);
             }
             else {
@@ -20,5 +19,6 @@ public class PageRankReducer extends Reducer<Text, Text, Text, Text> {
             }
         }
         context.write(key, new Text(outlinks+" "+pr));
+
     }
 }
