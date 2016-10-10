@@ -1,0 +1,382 @@
+[cloudera@quickstart ~]$ cd homework5
+[cloudera@quickstart homework5]$ ls
+input.txt  searchStrings.txt  WordCount.pig  WordCount.pig~
+[cloudera@quickstart homework5]$ hdfs dfs -mkdir /user/cloudera/class5
+[cloudera@quickstart homework5]$ hdfs dfs -ls /user/cloudera
+Found 6 items
+drwxr-xr-x   - cloudera cloudera          0 2016-09-13 13:59 /user/cloudera/assignment1
+drwxr-xr-x   - cloudera cloudera          0 2016-09-13 19:27 /user/cloudera/class1
+drwxr-xr-x   - cloudera cloudera          0 2016-09-21 19:39 /user/cloudera/class2
+drwxr-xr-x   - cloudera cloudera          0 2016-09-27 00:12 /user/cloudera/class3
+drwxr-xr-x   - cloudera cloudera          0 2016-09-27 00:50 /user/cloudera/class3_extra
+drwxr-xr-x   - cloudera cloudera          0 2016-10-09 20:14 /user/cloudera/class5
+[cloudera@quickstart homework5]$ hdfs dfs -put input.txt /user/cloudera/class5
+[cloudera@quickstart homework5]$ hdfs dfs -put searchStrings.txt /user/cloudera/class5[cloudera@quickstart homework5]$ hdfs dfs -cat /user/cloudera/class5/input.txt09-Dec-16,5:00PM;#Hackatopia,Tribeca Film Hackathon: Code As A New Language For Content Creators Hackathon
+28-Oct-16,7:00PM;#NYCHadoop,Hadoop-NYC Strata/Hadoop World Meetup at AppNexus NYC
+31-Dec-16,3:00PM;#Hackatopia,Designers, Developers, Doers, don't miss this upcoming Chicago hackathon[cloudera@quickstart homework5]$ 
+[cloudera@quickstart homework5]$ hdfs dfs -cat /user/cloudera/class5/searchStrings.txthackathon
+Dec
+Chicago
+Java[cloudera@quickstart homework5]$ 
+[cloudera@quickstart homework5]$ pig -param input=/user/cloudera/class5/input.txt -param search_strings=/user/cloudera/class5/searchStrings.txt -param output=/user/cloudera/class5/output.txt WordCount.pig
+
+.......
+
+2016-10-09 20:18:04,298 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - detailed locations: M: result[6,9],group_by_result[5,18] C: result[6,9],group_by_result[5,18] R: result[6,9]
+2016-10-09 20:18:04,298 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - More information at: http://localhost:50030/jobdetails.jsp?jobid=job_1476047392830_0022
+2016-10-09 20:18:21,553 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 41% complete
+2016-10-09 20:18:30,502 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 50% complete
+2016-10-09 20:18:34,384 [main] INFO  org.apache.pig.tools.pigstats.ScriptState - Pig script settings are added to the job
+2016-10-09 20:18:34,404 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - mapred.job.reduce.markreset.buffer.percent is not set, set to default 0.3
+2016-10-09 20:18:34,405 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - Reduce phase detected, estimating # of required reducers.
+2016-10-09 20:18:34,405 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - Using reducer estimator: org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.InputSizeReducerEstimator
+2016-10-09 20:18:34,415 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.InputSizeReducerEstimator - BytesPerReducer=1000000000 maxReducers=999 totalInputFileSize=89
+2016-10-09 20:18:34,415 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - Setting Parallelism to 1
+2016-10-09 20:18:34,503 [DataStreamer for file /tmp/temp-208877483/tmp-2130903467/hive-metastore-1.1.0-cdh5.8.0.jar] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:18:34,522 [DataStreamer for file /tmp/temp-208877483/tmp-367556512/libthrift-0.9.3.jar] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:18:34,753 [DataStreamer for file /tmp/temp-208877483/tmp1733924057/jdo-api-3.0.1.jar] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:18:34,772 [DataStreamer for file /tmp/temp-208877483/tmp-1277059370/hive-hbase-handler-1.1.0-cdh5.8.0.jar] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:18:34,794 [DataStreamer for file /tmp/temp-208877483/tmp1937114477/hive-hcatalog-core-1.1.0-cdh5.8.0.jar] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:18:34,812 [DataStreamer for file /tmp/temp-208877483/tmp-1787955677/hive-hcatalog-pig-adapter-1.1.0-cdh5.8.0.jar] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:18:34,813 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - creating jar file Job1809529533277884613.jar
+2016-10-09 20:18:38,264 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - jar file Job1809529533277884613.jar created
+2016-10-09 20:18:38,281 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - Setting up single store job
+2016-10-09 20:18:38,282 [main] INFO  org.apache.pig.data.SchemaTupleFrontend - Key [pig.schematuple] is false, will not generate code.
+2016-10-09 20:18:38,282 [main] INFO  org.apache.pig.data.SchemaTupleFrontend - Starting process to move generated code to distributed cache
+2016-10-09 20:18:38,282 [main] INFO  org.apache.pig.data.SchemaTupleFrontend - Setting key [pig.schematuple.classes] with classes to deserialize []
+2016-10-09 20:18:38,330 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 1 map-reduce job(s) waiting for submission.
+2016-10-09 20:18:38,330 [main] INFO  org.apache.hadoop.conf.Configuration.deprecation - mapred.job.tracker is deprecated. Instead, use mapreduce.jobtracker.address
+2016-10-09 20:18:38,336 [JobControl] INFO  org.apache.hadoop.yarn.client.RMProxy - Connecting to ResourceManager at /0.0.0.0:8032
+2016-10-09 20:18:38,342 [JobControl] INFO  org.apache.hadoop.conf.Configuration.deprecation - fs.default.name is deprecated. Instead, use fs.defaultFS
+2016-10-09 20:18:38,553 [JobControl] INFO  org.apache.hadoop.mapreduce.lib.input.FileInputFormat - Total input paths to process : 1
+2016-10-09 20:18:38,553 [JobControl] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil - Total input paths to process : 1
+2016-10-09 20:18:38,553 [JobControl] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil - Total input paths (combined) to process : 1
+2016-10-09 20:18:38,561 [JobControl] INFO  org.apache.hadoop.mapreduce.lib.input.FileInputFormat - Total input paths to process : 1
+2016-10-09 20:18:38,561 [JobControl] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil - Total input paths to process : 1
+2016-10-09 20:18:38,561 [JobControl] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil - Total input paths (combined) to process : 1
+2016-10-09 20:18:38,586 [DataStreamer for file /tmp/hadoop-yarn/staging/cloudera/.staging/job_1476047392830_0023/job.split] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:18:38,605 [DataStreamer for file /tmp/hadoop-yarn/staging/cloudera/.staging/job_1476047392830_0023/job.splitmetainfo] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:18:38,605 [JobControl] INFO  org.apache.hadoop.mapreduce.JobSubmitter - number of splits:2
+2016-10-09 20:18:38,663 [JobControl] INFO  org.apache.hadoop.mapreduce.JobSubmitter - Submitting tokens for job: job_1476047392830_0023
+2016-10-09 20:18:38,763 [JobControl] INFO  org.apache.hadoop.yarn.client.api.impl.YarnClientImpl - Submitted application application_1476047392830_0023
+2016-10-09 20:18:38,767 [JobControl] INFO  org.apache.hadoop.mapreduce.Job - The url to track the job: http://quickstart.cloudera:8088/proxy/application_1476047392830_0023/
+2016-10-09 20:18:38,835 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - HadoopJobId: job_1476047392830_0023
+2016-10-09 20:18:38,835 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Processing aliases join_result,temp_result
+2016-10-09 20:18:38,835 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - detailed locations: M: join_result[7,14],join_result[7,14] C:  R: join_result[7,14],temp_result[8,14]
+2016-10-09 20:18:38,836 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - More information at: http://localhost:50030/jobdetails.jsp?jobid=job_1476047392830_0023
+2016-10-09 20:18:58,537 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 54% complete
+2016-10-09 20:18:59,619 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 58% complete
+2016-10-09 20:19:06,398 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 66% complete
+2016-10-09 20:19:09,156 [main] INFO  org.apache.pig.tools.pigstats.ScriptState - Pig script settings are added to the job
+2016-10-09 20:19:09,176 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - mapred.job.reduce.markreset.buffer.percent is not set, set to default 0.3
+2016-10-09 20:19:09,177 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - Reduce phase detected, estimating # of required reducers.
+2016-10-09 20:19:09,177 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - Using reducer estimator: org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.InputSizeReducerEstimator
+2016-10-09 20:19:09,184 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.InputSizeReducerEstimator - BytesPerReducer=1000000000 maxReducers=999 totalInputFileSize=53
+2016-10-09 20:19:09,186 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - Setting Parallelism to 1
+2016-10-09 20:19:09,476 [DataStreamer for file /tmp/temp-208877483/tmp1473182235/libfb303-0.9.3.jar] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:19:09,496 [DataStreamer for file /tmp/temp-208877483/tmp-1185007185/jdo-api-3.0.1.jar] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:19:09,522 [DataStreamer for file /tmp/temp-208877483/tmp2062896732/hive-hbase-handler-1.1.0-cdh5.8.0.jar] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:19:09,559 [DataStreamer for file /tmp/temp-208877483/tmp-900832708/hive-hcatalog-core-1.1.0-cdh5.8.0.jar] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:19:09,593 [DataStreamer for file /tmp/temp-208877483/tmp150494259/hive-hcatalog-pig-adapter-1.1.0-cdh5.8.0.jar] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:19:09,593 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - creating jar file Job6681653161695223756.jar
+2016-10-09 20:19:13,099 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - jar file Job6681653161695223756.jar created
+2016-10-09 20:19:13,108 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - Setting up single store job
+2016-10-09 20:19:13,109 [main] INFO  org.apache.pig.data.SchemaTupleFrontend - Key [pig.schematuple] is false, will not generate code.
+2016-10-09 20:19:13,109 [main] INFO  org.apache.pig.data.SchemaTupleFrontend - Starting process to move generated code to distributed cache
+2016-10-09 20:19:13,109 [main] INFO  org.apache.pig.data.SchemaTupleFrontend - Setting key [pig.schematuple.classes] with classes to deserialize []
+2016-10-09 20:19:13,131 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 1 map-reduce job(s) waiting for submission.
+2016-10-09 20:19:13,131 [main] INFO  org.apache.hadoop.conf.Configuration.deprecation - mapred.job.tracker is deprecated. Instead, use mapreduce.jobtracker.address
+2016-10-09 20:19:13,132 [JobControl] INFO  org.apache.hadoop.yarn.client.RMProxy - Connecting to ResourceManager at /0.0.0.0:8032
+2016-10-09 20:19:13,139 [JobControl] INFO  org.apache.hadoop.conf.Configuration.deprecation - fs.default.name is deprecated. Instead, use fs.defaultFS
+2016-10-09 20:19:13,343 [JobControl] INFO  org.apache.hadoop.mapreduce.lib.input.FileInputFormat - Total input paths to process : 1
+2016-10-09 20:19:13,344 [JobControl] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil - Total input paths to process : 1
+2016-10-09 20:19:13,344 [JobControl] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil - Total input paths (combined) to process : 1
+2016-10-09 20:19:13,360 [DataStreamer for file /tmp/hadoop-yarn/staging/cloudera/.staging/job_1476047392830_0024/job.split] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:19:13,377 [DataStreamer for file /tmp/hadoop-yarn/staging/cloudera/.staging/job_1476047392830_0024/job.splitmetainfo] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:19:13,378 [JobControl] INFO  org.apache.hadoop.mapreduce.JobSubmitter - number of splits:1
+2016-10-09 20:19:13,487 [JobControl] INFO  org.apache.hadoop.mapreduce.JobSubmitter - Submitting tokens for job: job_1476047392830_0024
+2016-10-09 20:19:13,599 [JobControl] INFO  org.apache.hadoop.yarn.client.api.impl.YarnClientImpl - Submitted application application_1476047392830_0024
+2016-10-09 20:19:13,603 [JobControl] INFO  org.apache.hadoop.mapreduce.Job - The url to track the job: http://quickstart.cloudera:8088/proxy/application_1476047392830_0024/
+2016-10-09 20:19:13,632 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - HadoopJobId: job_1476047392830_0024
+2016-10-09 20:19:13,632 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Processing aliases final_result
+2016-10-09 20:19:13,632 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - detailed locations: M: final_result[9,15] C:  R: 
+2016-10-09 20:19:13,632 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - More information at: http://localhost:50030/jobdetails.jsp?jobid=job_1476047392830_0024
+2016-10-09 20:19:28,648 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 75% complete
+2016-10-09 20:19:37,023 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 83% complete
+2016-10-09 20:19:39,248 [main] INFO  org.apache.pig.tools.pigstats.ScriptState - Pig script settings are added to the job
+2016-10-09 20:19:39,255 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - mapred.job.reduce.markreset.buffer.percent is not set, set to default 0.3
+2016-10-09 20:19:39,255 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - Reduce phase detected, estimating # of required reducers.
+2016-10-09 20:19:39,255 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - Setting Parallelism to 1
+2016-10-09 20:19:39,356 [DataStreamer for file /tmp/temp-208877483/tmp839898959/libthrift-0.9.3.jar] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:19:39,620 [DataStreamer for file /tmp/temp-208877483/tmp504924770/libfb303-0.9.3.jar] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:19:39,638 [DataStreamer for file /tmp/temp-208877483/tmp-996100729/jdo-api-3.0.1.jar] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:19:39,659 [DataStreamer for file /tmp/temp-208877483/tmp303509150/hive-hbase-handler-1.1.0-cdh5.8.0.jar] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:19:39,674 [DataStreamer for file /tmp/temp-208877483/tmp577985221/hive-hcatalog-core-1.1.0-cdh5.8.0.jar] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:19:39,704 [DataStreamer for file /tmp/temp-208877483/tmp-218501180/hive-hcatalog-pig-adapter-1.1.0-cdh5.8.0.jar] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:19:39,705 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - creating jar file Job1265902921886287500.jar
+2016-10-09 20:19:43,468 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - jar file Job1265902921886287500.jar created
+2016-10-09 20:19:43,482 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.JobControlCompiler - Setting up single store job
+2016-10-09 20:19:43,482 [main] INFO  org.apache.pig.data.SchemaTupleFrontend - Key [pig.schematuple] is false, will not generate code.
+2016-10-09 20:19:43,482 [main] INFO  org.apache.pig.data.SchemaTupleFrontend - Starting process to move generated code to distributed cache
+2016-10-09 20:19:43,482 [main] INFO  org.apache.pig.data.SchemaTupleFrontend - Setting key [pig.schematuple.classes] with classes to deserialize []
+2016-10-09 20:19:43,497 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 1 map-reduce job(s) waiting for submission.
+2016-10-09 20:19:43,497 [main] INFO  org.apache.hadoop.conf.Configuration.deprecation - mapred.job.tracker is deprecated. Instead, use mapreduce.jobtracker.address
+2016-10-09 20:19:43,501 [JobControl] INFO  org.apache.hadoop.yarn.client.RMProxy - Connecting to ResourceManager at /0.0.0.0:8032
+2016-10-09 20:19:43,507 [JobControl] INFO  org.apache.hadoop.conf.Configuration.deprecation - fs.default.name is deprecated. Instead, use fs.defaultFS
+2016-10-09 20:19:43,677 [JobControl] INFO  org.apache.hadoop.mapreduce.lib.input.FileInputFormat - Total input paths to process : 1
+2016-10-09 20:19:43,677 [JobControl] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil - Total input paths to process : 1
+2016-10-09 20:19:43,677 [JobControl] INFO  org.apache.pig.backend.hadoop.executionengine.util.MapRedUtil - Total input paths (combined) to process : 1
+2016-10-09 20:19:43,693 [DataStreamer for file /tmp/hadoop-yarn/staging/cloudera/.staging/job_1476047392830_0025/job.split] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:19:43,710 [DataStreamer for file /tmp/hadoop-yarn/staging/cloudera/.staging/job_1476047392830_0025/job.splitmetainfo] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:19:43,710 [JobControl] INFO  org.apache.hadoop.mapreduce.JobSubmitter - number of splits:1
+2016-10-09 20:19:43,750 [DataStreamer for file /tmp/hadoop-yarn/staging/cloudera/.staging/job_1476047392830_0025/job.xml] WARN  org.apache.hadoop.hdfs.DFSClient - Caught exception 
+java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Thread.join(Thread.java:1281)
+	at java.lang.Thread.join(Thread.java:1355)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.closeResponder(DFSOutputStream.java:862)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.endBlock(DFSOutputStream.java:600)
+	at org.apache.hadoop.hdfs.DFSOutputStream$DataStreamer.run(DFSOutputStream.java:789)
+2016-10-09 20:19:43,750 [JobControl] INFO  org.apache.hadoop.mapreduce.JobSubmitter - Submitting tokens for job: job_1476047392830_0025
+2016-10-09 20:19:43,810 [JobControl] INFO  org.apache.hadoop.yarn.client.api.impl.YarnClientImpl - Submitted application application_1476047392830_0025
+2016-10-09 20:19:43,815 [JobControl] INFO  org.apache.hadoop.mapreduce.Job - The url to track the job: http://quickstart.cloudera:8088/proxy/application_1476047392830_0025/
+2016-10-09 20:19:43,998 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - HadoopJobId: job_1476047392830_0025
+2016-10-09 20:19:43,998 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Processing aliases final_result
+2016-10-09 20:19:43,998 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - detailed locations: M: final_result[9,15] C:  R: 
+2016-10-09 20:19:43,998 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - More information at: http://localhost:50030/jobdetails.jsp?jobid=job_1476047392830_0025
+2016-10-09 20:19:59,922 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 91% complete
+2016-10-09 20:20:14,225 [main] INFO  org.apache.hadoop.mapred.ClientServiceDelegate - Application state is completed. FinalApplicationStatus=SUCCEEDED. Redirecting to job history server
+2016-10-09 20:20:14,443 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - 100% complete
+2016-10-09 20:20:14,477 [main] INFO  org.apache.pig.tools.pigstats.SimplePigStats - Script Statistics: 
+
+HadoopVersion	PigVersion	UserId	StartedAt	FinishedAt	Features
+2.6.0-cdh5.8.0	0.12.0-cdh5.8.0	cloudera	2016-10-09 20:16:42	2016-10-09 20:20:14	HASH_JOIN,GROUP_BY,ORDER_BY,FILTER,CROSS
+
+Success!
+
+Job Stats (time in seconds):
+JobId	Maps	Reduces	MaxMapTime	MinMapTIme	AvgMapTime	MedianMapTime	MaxReduceTime	MinReduceTime	AvgReduceTime	MedianReducetime	Alias	Feature	Outputs
+job_1476047392830_0020	1	0	7	7	7	7	n/a	n/a	n/a	n/a	search_strings	MAP_ONLY	
+job_1476047392830_0021	2	1	10	10	10	10	8	8	8	8	cross_result,filter_result,input_file		
+job_1476047392830_0022	1	1	6	6	6	6	5	5	5	5	group_by_result,result	GROUP_BY,COMBINER	
+job_1476047392830_0023	2	1	9	9	9	9	5	5	5	5	join_result,temp_result	HASH_JOIN	
+job_1476047392830_0024	1	1	5	5	5	5	5	5	5	5	final_result	SAMPLER	
+job_1476047392830_0025	1	1	5	5	5	5	5	5	5	5	final_result	ORDER_BY	/user/cloudera/class5/output.txt,
+
+Input(s):
+Successfully read 4 records (415 bytes) from: "/user/cloudera/class5/searchStrings.txt"
+Successfully read 3 records from: "/user/cloudera/class5/input.txt"
+
+Output(s):
+Successfully stored 4 records (35 bytes) in: "/user/cloudera/class5/output.txt"
+
+Counters:
+Total records written : 4
+Total bytes written : 35
+Spillable Memory Manager spill count : 0
+Total bags proactively spilled: 0
+Total records proactively spilled: 0
+
+Job DAG:
+job_1476047392830_0020	->	job_1476047392830_0021,
+job_1476047392830_0021	->	job_1476047392830_0022,
+job_1476047392830_0022	->	job_1476047392830_0023,
+job_1476047392830_0023	->	job_1476047392830_0024,
+job_1476047392830_0024	->	job_1476047392830_0025,
+job_1476047392830_0025
+
+
+2016-10-09 20:20:15,480 [main] INFO  org.apache.hadoop.ipc.Client - Retrying connect to server: quickstart.cloudera/10.0.2.15:51226. Already tried 0 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=3, sleepTime=1000 MILLISECONDS)
+2016-10-09 20:20:16,481 [main] INFO  org.apache.hadoop.ipc.Client - Retrying connect to server: quickstart.cloudera/10.0.2.15:51226. Already tried 1 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=3, sleepTime=1000 MILLISECONDS)
+2016-10-09 20:20:17,482 [main] INFO  org.apache.hadoop.ipc.Client - Retrying connect to server: quickstart.cloudera/10.0.2.15:51226. Already tried 2 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=3, sleepTime=1000 MILLISECONDS)
+2016-10-09 20:20:17,586 [main] INFO  org.apache.hadoop.mapred.ClientServiceDelegate - Application state is completed. FinalApplicationStatus=SUCCEEDED. Redirecting to job history server
+2016-10-09 20:20:18,695 [main] INFO  org.apache.hadoop.ipc.Client - Retrying connect to server: quickstart.cloudera/10.0.2.15:35147. Already tried 0 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=3, sleepTime=1000 MILLISECONDS)
+2016-10-09 20:20:19,696 [main] INFO  org.apache.hadoop.ipc.Client - Retrying connect to server: quickstart.cloudera/10.0.2.15:35147. Already tried 1 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=3, sleepTime=1000 MILLISECONDS)
+2016-10-09 20:20:20,696 [main] INFO  org.apache.hadoop.ipc.Client - Retrying connect to server: quickstart.cloudera/10.0.2.15:35147. Already tried 2 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=3, sleepTime=1000 MILLISECONDS)
+2016-10-09 20:20:20,798 [main] INFO  org.apache.hadoop.mapred.ClientServiceDelegate - Application state is completed. FinalApplicationStatus=SUCCEEDED. Redirecting to job history server
+2016-10-09 20:20:21,987 [main] INFO  org.apache.hadoop.ipc.Client - Retrying connect to server: quickstart.cloudera/10.0.2.15:40702. Already tried 0 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=3, sleepTime=1000 MILLISECONDS)
+2016-10-09 20:20:22,988 [main] INFO  org.apache.hadoop.ipc.Client - Retrying connect to server: quickstart.cloudera/10.0.2.15:40702. Already tried 1 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=3, sleepTime=1000 MILLISECONDS)
+2016-10-09 20:20:23,989 [main] INFO  org.apache.hadoop.ipc.Client - Retrying connect to server: quickstart.cloudera/10.0.2.15:40702. Already tried 2 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=3, sleepTime=1000 MILLISECONDS)
+2016-10-09 20:20:24,093 [main] INFO  org.apache.hadoop.mapred.ClientServiceDelegate - Application state is completed. FinalApplicationStatus=SUCCEEDED. Redirecting to job history server
+2016-10-09 20:20:25,232 [main] INFO  org.apache.hadoop.ipc.Client - Retrying connect to server: quickstart.cloudera/10.0.2.15:41934. Already tried 0 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=3, sleepTime=1000 MILLISECONDS)
+2016-10-09 20:20:26,233 [main] INFO  org.apache.hadoop.ipc.Client - Retrying connect to server: quickstart.cloudera/10.0.2.15:41934. Already tried 1 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=3, sleepTime=1000 MILLISECONDS)
+2016-10-09 20:20:27,234 [main] INFO  org.apache.hadoop.ipc.Client - Retrying connect to server: quickstart.cloudera/10.0.2.15:41934. Already tried 2 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=3, sleepTime=1000 MILLISECONDS)
+2016-10-09 20:20:27,337 [main] INFO  org.apache.hadoop.mapred.ClientServiceDelegate - Application state is completed. FinalApplicationStatus=SUCCEEDED. Redirecting to job history server
+2016-10-09 20:20:28,565 [main] INFO  org.apache.hadoop.ipc.Client - Retrying connect to server: quickstart.cloudera/10.0.2.15:55389. Already tried 0 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=3, sleepTime=1000 MILLISECONDS)
+2016-10-09 20:20:29,566 [main] INFO  org.apache.hadoop.ipc.Client - Retrying connect to server: quickstart.cloudera/10.0.2.15:55389. Already tried 1 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=3, sleepTime=1000 MILLISECONDS)
+2016-10-09 20:20:30,567 [main] INFO  org.apache.hadoop.ipc.Client - Retrying connect to server: quickstart.cloudera/10.0.2.15:55389. Already tried 2 time(s); retry policy is RetryUpToMaximumCountWithFixedSleep(maxRetries=3, sleepTime=1000 MILLISECONDS)
+2016-10-09 20:20:30,670 [main] INFO  org.apache.hadoop.mapred.ClientServiceDelegate - Application state is completed. FinalApplicationStatus=SUCCEEDED. Redirecting to job history server
+2016-10-09 20:20:30,906 [main] INFO  org.apache.pig.backend.hadoop.executionengine.mapReduceLayer.MapReduceLauncher - Success!
+[cloudera@quickstart homework5]$ hdfs dfs -ls /user/cloudera/class5/output.txt
+Found 2 items
+-rw-r--r--   1 cloudera cloudera          0 2016-10-09 20:20 /user/cloudera/class5/output.txt/_SUCCESS
+-rw-r--r--   1 cloudera cloudera         35 2016-10-09 20:20 /user/cloudera/class5/output.txt/part-r-00000
+[cloudera@quickstart homework5]$ hdfs dfs -cat /user/cloudera/class5/output.txt/part-r-00000
+Chicago	1
+Dec	2
+Java	0
+hackathon	2
+[cloudera@quickstart homework5]$ 
+
+

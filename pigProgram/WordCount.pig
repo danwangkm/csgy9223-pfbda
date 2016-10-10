@@ -1,0 +1,10 @@
+input_file = LOAD '$input' AS text;
+search_strings = LOAD '$search_strings' AS string;
+cross_result = CROSS input_file, search_strings;
+filter_result = FILTER cross_result BY INDEXOF(LOWER(text), LOWER(string), 0)!= -1;
+group_by_result = GROUP filter_result BY string;
+result = FOREACH group_by_result GENERATE $0 AS string, COUNT($1) AS count;
+join_result = JOIN result BY string FULL OUTER, search_strings BY string;
+temp_result = FOREACH join_result GENERATE $2 AS string, (count is null?0:count);
+final_result = ORDER temp_result BY string;
+STORE final_result INTO '$output';
