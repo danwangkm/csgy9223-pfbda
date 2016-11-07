@@ -1,0 +1,81 @@
+$ hdfs dfs -mkdir hiveInput
+$ hdfs dfs -mkdir impalaInput
+
+Paste the following data into a new file named smallWeather1.txt:
+
+006701199099999,1950,051507004888888888888888888888888888888888888888888888888889999999N9,+0000,1,+99999999999
+004301199099999,1950,051512004888888888888888888888888888888888888888888888888889999999N9,+0022,1,+99999999999
+004301199099999,1950,051518004888888888888888888888888888888888888888888888888889999999N9,-0011,1,+99999999999
+004301265099999,1949,032412004888888888888888888888888888888888888888888888888880500001N9,+0111,1,+99999999999
+004301265099999,1949,032418004888888888888888888888888888888888888888888888888880500001N9,+0078,1,+99999999999
+
+// Get data ready for Hive tests
+$ hdfs dfs -put smallWeather1.txt hiveInput
+$ hdfs dfs -ls hiveInput 
+$ hdfs dfs -cat hiveInput/smallWeather1.txt
+
+// Get data ready for Impala tests that you'll run later
+$ hdfs dfs -put smallWeather1.txt impalaInput
+$ hdfs dfs -ls impalaInput
+$ hdfs dfs -cat impalaInput/smallWeather1.txt
+
+2. Create a hive external table:
+$ beeline -u jdbc:hive2://quickstart:10000/default -n cloudera -d org.apache.hive.jdbc.HiveDriver
+hive> create external table w1 (data1 string, year int, data2 string, temperature int, quality tinyint, data3 string)
+          row format delimited fields terminated by ','
+          location '/user/cloudera/hiveInput/';
+hive> show tables;
+hive> describe w1;
+
+3. View your data using HiveQL queries: 
+
+hive> select * from w1;
+
+hive> select * from w1 limit 2;
+
+hive> select year from w1;      
+
+hive> select * from w1 where year > 1949;
+
+hive> select * from w1 where year >= 1949;
+
+hive> select distinct year from w1;
+ Note: Notice that a MapReduce job runs this time.
+
+hive> select w.year, w.temp from                                      
+         (select year, max(temperature) as temp from w1 group by year) w;    
+
+         Note: This last result should look familiar, but here you only had to write one line of code!
+
+4. Create two more Hive tables with slightly different fields but with the same external data source:
+
+hive> create external table w2 (data1 string, year int, data2 string, temperature int, quality tinyint, nines int)
+          row format delimited fields terminated by ','
+          location '/user/cloudera/hiveInput/';
+
+hive> describe w2;
+
+hive> select * from w2;    -- Is this what you expected to see? Enter your answer on NYU Classes.
+
+hive> create external table w3 (data1 string, year int, data2 string, temperature int, quality tinyint, nines bigint)
+          row format delimited fields terminated by ','
+          location '/user/cloudera/hiveInput/';
+
+hive> select * from w3;    -- Is this what you expected to see?
+
+hive> drop table w2;
+
+hive> select * from w2;    --Should fail. Why?
+hive> select * from w3;    --We dropped table w2, but data and table w3’s metadata are still available.
+hive> select * from w1;    --Table w1 is fine too.
+
+
+5. Test querying across multiple files 
+hive> dfs -ls hiveInput;     --Look at the file you put into hdfs
+hive> dfs -cat hiveInput/smallWeather1.txt;
+hive> dfs -cp hiveInput/smallWeather1.txt hiveInput/smallWeather2.txt;
+hive> dfs -ls hiveInput
+hive> dfs -cp hiveInput/smallWeather1.txt hiveInput/smallWeather3.txt;
+hive> dfs -ls hiveInput;      --Verify three files now in hdfs
+hive> select * from w3;      --Notice now all three files in hdfs are picked up
+hive> select * from w1;      --Notice now all three files in hdfs are picked up

@@ -1,0 +1,57 @@
+1. Verify that the data you put into HDFS is still there:
+
+$ hdfs dfs -cat impalaInput/smallWeather1.txt
+
+2. Create an Impala table:
+Open a new terminal window (keep the other one in the Hive shell, you will need it shortly):
+$ impala-shell
+impala> show tables;    -- you should see no tables listed
+impala> invalidate metadata;   -- force Impala to update its metadata
+impala> show tables;    -- you should see the tables you created earlier in Hive
+impala> create external table w10 (data1 string, year int, data2 string, temperature int, quality tinyint, data3 string)
+          row format delimited fields terminated by ','
+          location '/user/cloudera/impalaInput/';
+impala> show tables;
+impala> describe w10;
+
+3. View your data using SQL queries: 
+
+impala> select * from w10;
+impala> select * from w10 limit 2;
+
+impala> select year from w10;      
+
+impala> select * from w10 where year > 1949;
+impala> select * from w10 where year >= 1949;
+
+impala> select distinct year from w10;   -- Post on NYU Classes the time taken to execute
+
+impala> select distinct year from w1;   -- Post on NYU Classes the time taken to execute 1st time
+impala> select distinct year from w1;   -- Post on NYU Classes the time taken to execute 2nd time
+
+hive> select distinct year from w1;   -- Post on NYU Classes the time taken to execute 1st time
+hive> select distinct year from w1;   -- Post on NYU Classes the time taken to execute 2nd time
+
+Explain on NYU Classes what you have observed.
+
+impala> select w.year, w.temp from (select year, max(temperature) as temp from w10 group by year) w;    
+
+         Note: This last result should look familiar! 
+
+
+4. Create one more Impala table with slightly different fields but with the same external data source:
+
+impala> create external table w30 (data1 string, year int, data2 string, temperature int, quality tinyint, nines bigint)
+          row format delimited fields terminated by ','
+          location '/user/cloudera/impalaInput/';
+
+impala> select * from w30;  
+impala> select * from w10;   
+
+
+5. Test querying across multiple files using the Hive tables previously defined
+    Notice how the three files we previously deposited in the hiveInput directory are all picked up - you should see fifteen lines printed.
+impala> select * from w3;      --Notice now all three files in hdfs are picked up
+impala> select * from w1;      --Notice now all three files in hdfs are picked up
+impala> select count(*) from w3;      --Notice now all three files in hdfs are picked up
+impala> select count(*) from w1;      --Notice now all three files in hdfs are picked up
