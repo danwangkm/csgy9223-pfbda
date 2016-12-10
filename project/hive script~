@@ -1,4 +1,4 @@
-beeline -u jdbc:hive2://quickstart:10000/default -n cloudera -d org.apache.hive.jdbc.HiveDriver --incremental==false
+beeline -u jdbc:hive2://quickstart:10000/default -n cloudera -d org.apache.hive.jdbc.HiveDriver
 
 
 hive> create external table weather_data (station string, station_name string, date date, prcp decimal(10,2), snwd decimal(10,2), snow decimal(10,2), tavg decimal(10,2), tmax decimal(10,2), tmin decimal(10,2), awnd decimal(10,2), wsf2 decimal(10,2), wsf5 decimal(10,2), wt09 tinyint, wt07 tinyint, wt01 tinyint, wt06 tinyint, wt05 tinyint, wt02 tinyint, wt04 tinyint, wt08 tinyint, wt03 tinyint)
