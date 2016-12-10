@@ -1,24 +1,20 @@
-beeline -u jdbc:hive2://quickstart:10000/default -n cloudera -d org.apache.hive.jdbc.HiveDriver --incremental==false
 
 
-hive> create external table weather_data (station string, station_name string, date date, prcp decimal(10,2), snwd decimal(10,2), snow decimal(10,2), tavg decimal(10,2), tmax decimal(10,2), tmin decimal(10,2), awnd decimal(10,2), wsf2 decimal(10,2), wsf5 decimal(10,2), wt09 tinyint, wt07 tinyint, wt01 tinyint, wt06 tinyint, wt05 tinyint, wt02 tinyint, wt04 tinyint, wt08 tinyint, wt03 tinyint)
-          row format delimited fields terminated by ','
-          location '/user/cloudera/project/weather_data/';
+beeline -u jdbc:hive2://quickstart:10000/default -n cloudera -d org.apache.hive.jdbc.HiveDriver
 
-hive> create external table flight_data (year int, month int, day_of_month int, day_of_week int, fl_date date, unique_carrier string, origin string, dest string, crs_dep_time string, dep_delay decimal(10,2), crs_arr_time string, arr_delay decimal(10,2), cancelled decimal(10,2), distance decimal(10,2))
-          row format delimited fields terminated by ','
-          location '/user/cloudera/project/flight_data/';
+
+hive> create external table weather_data (station string, station_name string, date date, prcp decimal(10,2), snwd decimal(10,2), snow decimal(10,2), tavg decimal(10,2), tmax decimal(10,2), tmin decimal(10,2), awnd decimal(10,2), wsf2 decimal(10,2), wsf5 decimal(10,2), wt09 tinyint, wt07 tinyint, wt01 tinyint, wt06 tinyint, wt05 tinyint, wt02 tinyint, wt04 tinyint, wt08 tinyint, wt03 tinyint) row format delimited fields terminated by ',' location '/user/cloudera/project/weather_data/';
+
+hive> create external table flight_data (year int, month int, day_of_month int, day_of_week int, fl_date date, unique_carrier string, airline_id int, origin_airport_id int, origin string, dest_airport_id int, dest string, crs_dep_time string, dep_delay decimal(10,2), crs_arr_time string, arr_delay decimal(10,2), cancelled decimal(10,2), distance decimal(10,2)) row format delimited fields terminated by ',' location '/user/cloudera/project/flight_data/';
 
 
 hive> create external table airport_mapping (station string, station_name string, airport string) row format delimited fields terminated by ',' location '/user/cloudera/project/airport_mapping/';
 
 
-hive> SELECT weather_data.*, flight_data.* FROM weather_data JOIN airport_mapping ON (weather_data.station == airport_mapping.station) JOIN flight_data ON (airport_mapping.airport == flight_data.origin) WHERE weather_data.date == flight_data.fl_date;
+hive> INSERT OVERWRITE DIRECTORY '/user/cloudera/project/output/' ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' SELECT flight_data.*, weather_data.* FROM weather_data JOIN airport_mapping ON (weather_data.station == airport_mapping.station) JOIN flight_data ON (airport_mapping.airport == flight_data.origin) WHERE weather_data.date == flight_data.fl_date;
 
 
-INSERT OVERWRITE LOCAL DIRECTORY '/user/cloudera/project/'
-ROW FORMAT DELIMITED
-FIELDS TERMINATED BY ','
+
 
 
 
