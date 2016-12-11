@@ -11,7 +11,10 @@ hive> create external table flight_data (year int, month int, day_of_month int, 
 hive> create external table airport_mapping (station string, station_name string, airport string) row format delimited fields terminated by ',' location '/user/cloudera/project/airport_mapping/';
 
 
-hive> INSERT OVERWRITE DIRECTORY '/user/cloudera/project/output/' ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' SELECT flight_data.*, weather_data.* FROM weather_data JOIN airport_mapping ON (weather_data.station == airport_mapping.station) JOIN flight_data ON (airport_mapping.airport == flight_data.origin) WHERE weather_data.date == flight_data.fl_date;
+hive> create external table airport_flights (airport string, date date, actual_departures int, actual_arrivals int) row format delimited fields terminated by ',' location '/user/cloudera/project/airport_flights/';
+
+
+hive> INSERT OVERWRITE DIRECTORY '/user/cloudera/project/output/' ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' SELECT flight_data.*, weather_data.*, airport_flights.* FROM weather_data JOIN airport_mapping ON (weather_data.station == airport_mapping.station) JOIN flight_data ON (airport_mapping.airport == flight_data.origin) JOIN airport_flights ON (flight_data.origin == airport_flights.airport AND flight_data.fl_date == airport_flights.date) WHERE weather_data.date == flight_data.fl_date;
 
 
 
